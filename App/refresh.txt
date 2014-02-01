@@ -1,0 +1,61 @@
+<?php
+function getTime() 
+    { 
+    $a = explode (' ',microtime()); 
+    return(double) $a[0] + $a[1]; 
+    } 
+
+$mk = 0;
+  for ( $ft = 0; $ft <= 2; $ft++) {$quote = "";$Start = getTime();
+$quote = file_get_contents('http://finance.google.com/finance/info?client=ig&q=LON:3IN,LON:888,LON:AAIF,LON:AAL,LON:AAS,LON:ABD,LON:ABF,LON:ABG,LON:ABR,LON:ACD,LON:ADM,LON:ADMF,LON:ADN,LON:AEP,LON:AFR,LON:AGA,LON:AGK,LON:AGOL,LON:AGOU,LON:AGS,LON:AHT,LON:AIE,LON:AIS,LON:ALD,LON:ALY,LON:AMEC,LON:AML,LON:ANTO,LON:APF,LON:AQP,LON:ARM,LON:ASHM,LON:ASL,LON:ATK,LON:ATS,LON:ATST,LON:AV,LON:AVM,LON:AVON,LON:AVV,LON:AYM,LON:AZEM,LON:AZN,LON:BA,LON:BAB,LON:BABS,LON:BAG,LON:BARC,LON:BATS,LON:BBA,LON:BBGI,LON:BBY,LON:BDEV,LON:BEE,LON:BET,LON:BEZ,LON:BG,LON:BGC,LON:BGFD,LON:BHGG,LON:BHGU,LON:BHME,LON:BHMG,LON:BHMU,LON:BHY,LON:BIOG,LON:BKG,LON:BLND,LON:BLT,LON:BLZ,LON:BMS,LON:BMY,LON:BNKR,LON:BNZL,LON:BOK,LON:BOY,LON:BP,LON:BPI,LON:BPTY,LON:BRAM,LON:BRBY,LON:BRCI,LON:BRFI,LON:BRGE,LON:BRNE,LON:BRSC,LON:BRSN,LON:BRW,LON:BRWM,LON:BSET,LON:BSY,LON:BT-A,LON:BTEM,LON:BUMI,LON:BUT,LON:BVC,LON:BVIC,LON:BVS,LON:BWNG,LON:BWY,LON:BYG');
+  
+  $parts = explode('"', $quote);
+
+$a = 7;
+$b = 15;
+
+for ($i = 0; $i <=96; $i++ ) {
+
+$name[$i] = $parts[$a];
+$ltp[$i] = str_replace(",","",$parts[$b]);
+$a = $a + 44;
+$b = $b + 44;
+$datafile = $name[$i]."LAST.txt";
+$file = fopen($datafile, "w" );
+fwrite( $file, $ltp[$i] ); 
+fclose( $file );
+
+}
+
+$quote = file_get_contents('http://finance.google.com/finance/info?client=ig&q=LON:CAEL,LON:CAL,LON:CAM,LON:CAPC,LON:CAR,LON:CAU,LON:CBG,LON:CCC,LON:CCL,LON:CDI,LON:CEY,LON:CGL,LON:CGT,LON:CHG,LON:CHW,LON:CINE,LON:CIU,LON:CKN,LON:CKSN,LON:CLDN,LON:CLI,LON:CLIG,LON:CLLN,LON:CMHY,LON:CNA,LON:CNE,LON:COB,LON:COLT,LON:COST,LON:CPG,LON:CPI,LON:CPP,LON:CPR,LON:CRDA,LON:CRE,LON:CRH,LON:CRM,LON:CSCG,LON:CSN,LON:CSR,LON:CSRT,LON:CTR,LON:CTY,LON:CW,LON:CWC,LON:CWK,LON:CYN,LON:DAB,LON:DCG,LON:DEA,LON:DEB,LON:DGE,LON:DIA,LON:DIG,LON:DJAN,LON:DLAR,LON:DLN,LON:DMGT,LON:DNDL,LON:DNE,LON:DNLM,LON:DNO,LON:DOM,LON:DPH,LON:DPLM,LON:DRX,LON:DSC,LON:DTL,LON:DTY,LON:DVO,LON:DXNS,LON:E2V,LON:ECM,LON:ECWO,LON:EDIN,LON:EFM,LON:ELM,LON:ELTA,LON:EMG,LON:ENQ,LON:ENRC,LON:EPG,LON:ERM,LON:ESSR,LON:EST,LON:ETI,LON:EUK,LON:EUS,LON:EUT,LON:EVR,LON:EWI,LON:EXI,LON:EXPN,LON:EZJ,LON:FAS,LON:FCAM,LON:FCCN,LON:FCI,LON:FCPT,LON:FCS');
+  
+  $parts = explode('"', $quote);
+
+$a = 7;
+$b = 15;
+
+for ($i = 97; $i <=168; $i++ ) {
+
+$name[$i] = $parts[$a];
+$ltp[$i] = str_replace(",","",$parts[$b]);
+$a = $a + 44;
+$b = $b + 44;
+$datafile = $name[$i]."LAST.txt";
+$file = fopen($datafile, "w" );
+fwrite( $file, $ltp[$i] ); 
+fclose( $file );
+
+}
+$End = getTime();
+$much = number_format(($End - $Start),2);
+$jiu = file_get_contents("looplimit.txt");
+if( $ft == $jiu ) { $ft--; };
+$mk ++;
+$file = fopen("looplog.txt", "a+" );
+fwrite( $file, $mk."th - stream in -".$much." seconds."."\r\n" ); 
+fclose( $file );
+
+}
+
+
+?>
